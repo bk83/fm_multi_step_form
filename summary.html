@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- font import start -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,400;0,500;1,700&display=swap"
+    rel="stylesheet">
+  <!-- font import end -->
+  <script src="assets/js/common.js"></script>
+
+  <title>Frontend Mentor | Multi-step form</title>
+</head>
+
+<body>
+  <div class="content-container">
+    <div class="section-container">
+      <!-- Sidebar start -->
+      <div class="sidebar-container">
+        <ul class="sidebar-container__step-list">
+          <li>
+            <div class="step-list__step-num">1</div>
+            <div class="step-list__step-title">
+              <p>Step 1</p>
+              <p>Your info</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-list__step-num">2</div>
+            <div class="step-list__step-title">
+              <p>Step 2</p>
+              <p>Select plan</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-list__step-num">3</div>
+            <div class="step-list__step-title">
+              <p>Step 3</p>
+              <p>Add-ons</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-list__step-num active">4</div>
+            <div class="step-list__step-title">
+              <p>Step 4</p>
+              <p>Summary</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!-- Sidebar end -->
+      <!-- Step 4 start -->
+
+      <div id="step-container" class="step-container">
+        <!-- Title -->
+        <h1>Finishing up</h1>
+        <p>Double-check everything looks OK before confirming.</p>
+        <!-- summary area -->
+        <div class="summary-area">
+          <div class="summary-area__item-container">
+            <div class="summary-area__item-container__main-plan">
+              <div class="main-plan-name">
+                <span id="planName" class="marineBlue bold"></span>
+                <div class="changeLink"><a href="plan.html">change</a></div>
+              </div>
+              <div id="planFee" class="main-plan-fee marineBlue bold"></div>
+            </div>
+            <div class="hr-line"></div>
+            <div id="addonTotal" class="summary-area__item-container__addon-info"></div>
+          </div>
+          <div class="summary-area__total-container">
+            <div id="total-title" class="total-title coolGray"></div>
+            <div id="total-price" class="total-amount"></div>
+          </div>
+        </div>
+      </div>
+      <div id="button-container" class="btn-container">
+        <div class="btn prev-btn" onclick="goBack()"><span>Go Back</span></div>
+        <div class="btn next-btn noDisplay" onclick="submit()"><span>Next Step</span></div>
+        <div class="btn confirm-btn" onclick="confirm()"><span>Confrim</span></div>
+      </div>
+      <!-- Step 4 end -->
+    </div>
+    <!-- view-container end -->
+  </div>
+  <script>
+    // initial display
+    window.addEventListener('load', function () {
+
+      //get local data
+      const switchVal = sessionStorage.getItem('switchVal');
+      const planName = sessionStorage.getItem('selectedPlan');
+      const planFee = sessionStorage.getItem('fee');
+      const subTotal = sessionStorage.getItem('subTotal');
+      const totalPrice = parseInt(planFee) + parseInt(subTotal);
+
+      //plan
+      sessionStorage.getItem('switchVal');
+      document.getElementById('planName').textContent =
+        switchVal == 1 ? `${planName} (Monthly)` : `${planName} (Yearly)`;
+      document.getElementById('planFee').textContent = `$${planFee} /mo`
+      document.getElementById('total-title').textContent =
+        switchVal == 1 ? "Total (Per month)" : "Total (Per year)";
+
+
+      // plan + subtotal 
+      document.getElementById('total-price').textContent =
+        switchVal == 1 ? `$${totalPrice} /mo` : `$${totalPrice} /yr`;
+
+      var addOnListString = JSON.parse(localStorage.getItem('addOnList'));
+      displayAddonItems(addOnListString);
+
+    });
+
+    const displayAddonItems = (addonList) => {
+      let htmlCode = "";
+      var subtotal;
+
+      Object.keys(addonList).forEach((key) => {
+        const item = addonList[key];
+        htmlCode += `
+        <div class="item-container__addon-info__item">
+          <div class="addon-name coolGray">${item.name}</div>
+          <div class=addon-price "marineBlue">$${item.price} /mo</div>
+        </div>
+          `;
+      });
+
+      // Insert the generated HTML code into the desired container element
+      const container = document.getElementById("addonTotal");
+      container.innerHTML = htmlCode;
+    }
+
+    const confirm = () => {
+      location.href = 'confirm.html';
+    }
+
+    const goBack = () => {
+      location.href = 'addon.html';
+    }
+  </script>
+</body>
+
+</html>

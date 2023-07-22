@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- font import start -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,400;0,500;1,700&display=swap"
+    rel="stylesheet">
+  <!-- font import end -->
+  <script src="assets/js/common.js"></script>
+  <title>Frontend Mentor | Multi-step form</title>
+
+</head>
+
+<body>
+  <div class="content-container">
+    <div class="section-container">
+      <!-- Sidebar start -->
+      <div class="sidebar-container">
+        <ul class="sidebar-container__step-list">
+          <li>
+            <div class="step-list__step-num">1</div>
+            <div class="step-list__step-title">
+              <p>Step 1</p>
+              <p>Your info</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-list__step-num">2</div>
+            <div class="step-list__step-title">
+              <p>Step 2</p>
+              <p>Select plan</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-list__step-num active">3</div>
+            <div class="step-list__step-title">
+              <p>Step 3</p>
+              <p>Add-ons</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-list__step-num">4</div>
+            <div class="step-list__step-title">
+              <p>Step 4</p>
+              <p>Summary</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!-- Sidebar end -->
+      <!-- Step 3 start -->
+      <div id="step-container" class="step-container">
+        <!-- Title -->
+        <h1>Pick add-ons</h1>
+        <p>Add-ons help enhance your gaming experience.</p>
+        <!-- addon area -->
+        <div class="addon-area">
+          <!-- card -->
+          <div class="addon-area__item-container">
+            <div class="addon-area__item-container__addon-item">
+              <input type="checkbox" name="addonCheckbox" onchange="handleChange(this)">
+              <div class="addon-detail">
+                <span id="item1-name"></span>
+                <span id="item1-summary"></span>
+              </div>
+            </div>
+            <div>
+              <span id="item1-price" class="addon-detail__price"></span>
+            </div>
+          </div>
+
+          <div class="addon-area__item-container">
+            <div class="addon-area__item-container__addon-item">
+              <input type="checkbox" name="addonCheckbox" onchange="handleChange(this)">
+              <div class="addon-detail">
+                <span id="item2-name"></span>
+                <span id="item2-summary"></span>
+              </div>
+            </div>
+            <div>
+              <span id="item2-price" class="addon-detail__price"></span>
+            </div>
+          </div>
+
+          <div class="addon-area__item-container">
+            <div class="addon-area__item-container__addon-item">
+              <input type="checkbox" name="addonCheckbox" onchange="handleChange(this)">
+              <div class="addon-detail">
+                <span id="item3-name"></span>
+                <span id="item3-summary"></span>
+              </div>
+            </div>
+            <div>
+              <span id="item3-price" class="addon-detail__price"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- buttons -->
+      <div id="button-container" class="btn-container">
+        <div class="btn prev-btn" onclick="goBack()"><span>Go Back</span></div>
+        <div class="btn next-btn" onclick="submit()"><span>Next Step</span></div>
+        <div class="btn confirm-btn noDisplay"><span>Confrim</span></div>
+      </div>
+      <!-- Step 3 end -->
+    </div>
+    <!-- view-container end -->
+  </div>
+  <script>
+    // *** Addon data ***
+    const addOns = {
+      item1: {
+        id: 1,
+        name: "Online service",
+        summary: "Access to multiplayer games",
+        monthlyFee: 1,
+        yearlyFee: 10
+      },
+      item2: {
+        id: 2,
+        name: "Larger storage",
+        summary: "Extra 1TB of cloud save",
+        monthlyFee: 2,
+        yearlyFee: 20
+      },
+      item3: {
+        id: 3,
+        name: "Customizable Profile",
+        summary: "Custom theme on your profile",
+        monthlyFee: 2,
+        yearlyFee: 20
+      }
+    };
+
+    // initial display
+    window.addEventListener('load', function () {
+
+      //get local data
+      // switchVal 1:monthly/2:Yearly
+      const switchVal = sessionStorage.getItem('switchVal');
+      //item1
+      sessionStorage.getItem('switchVal');
+      document.getElementById('item1-name').textContent = `${addOns.item1.name}`;
+      document.getElementById('item1-summary').textContent = `${addOns.item1.summary}`;
+      document.getElementById('item1-price').textContent = switchVal == 1 ? `+$${addOns.item1.monthlyFee}/mo` : `+$${addOns.item1.yearlyFee}/mo`
+
+      //item2
+      document.getElementById('item2-name').textContent = `${addOns.item2.name}`;
+      document.getElementById('item2-summary').textContent = `${addOns.item2.summary}`;
+      document.getElementById('item2-price').textContent = switchVal == 1 ? `+$${addOns.item2.monthlyFee}/mo` : `+$${addOns.item2.yearlyFee}/mo`
+
+      //item3
+      document.getElementById('item3-name').textContent = `${addOns.item3.name}`;
+      document.getElementById('item3-summary').textContent = `${addOns.item3.summary}`;
+      document.getElementById('item3-price').textContent = switchVal == 1 ? `+$${addOns.item3.monthlyFee}/mo` : `+$${addOns.item3.yearlyFee}/mo`
+    });
+
+
+    // set checked item
+    const setCheckedItem = () => {
+      var checkbox = document.getElementsByName("addonCheckbox");
+      var addOnList = {};
+      var subTotal = 0;
+
+      for (var i = 0; i < checkbox.length; i++) {
+        if (checkbox[i].checked) {
+          var currentItem = {
+            name: document.getElementById("item" + (i + 1) + "-name").textContent,
+            summary: document.getElementById("item" + (i + 1) + "-summary").textContent,
+            price: getNumVal(document.getElementById("item" + (i + 1) + "-price").textContent)
+          };
+          subTotal += parseInt(currentItem.price); // sum of checked item price
+          addOnList["item" + (i + 1)] = currentItem;
+        }
+      }
+
+      sessionStorage.setItem('subTotal', subTotal);
+      localStorage.setItem('addOnList', JSON.stringify(addOnList));
+    }
+
+
+    // Get numers from string
+    const getNumVal = (string) => {
+      var numberPattern = /\d/g;
+
+      var result = string.match(numberPattern);
+      result = result.join("");
+      return result;
+    }
+
+    // Next button
+    const submit = () => {
+      // set checked item info to session Storage
+      setCheckedItem();
+      // Go to next page
+      location.href = 'summary.html';
+    }
+
+    // Go back button
+    const goBack = () => {
+      location.href = 'plan.html';
+    }
+
+    // border color change
+    const handleChange = (checkbox) => {
+      const target = checkbox.closest('.addon-area__item-container');
+      checkbox.checked ? target.classList.add('addon-checked') : target.classList.remove('addon-checked')
+    }
+  </script>
+</body>
+
+</html>

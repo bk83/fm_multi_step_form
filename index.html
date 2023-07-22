@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- displays site properly based on user's device -->
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- font import start -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,400;0,500;1,700&display=swap"
+    rel="stylesheet">
+  <!-- font import end -->
+  <script src="assets/js/common.js"></script>
+  <title>Frontend Mentor | Multi-step form</title>
+</head>
+
+<body>
+  <div class="content-container">
+    <div class="section-container">
+      <!-- Sidebar start -->
+      <div class="sidebar-container">
+        <ul class="sidebar-container__step-list">
+          <li>
+            <div class="step-list__step-num active">1</div>
+            <div class="step-list__step-title">
+              <p>Step 1</p>
+              <p>Your info</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-list__step-num">2</div>
+            <div class="step-list__step-title">
+              <p>Step 2</p>
+              <p>Select plan</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-list__step-num">3</div>
+            <div class="step-list__step-title">
+              <p>Step 3</p>
+              <p>Add-ons</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-list__step-num">4</div>
+            <div class="step-list__step-title">
+              <p>Step 4</p>
+              <p>Summary</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!-- Sidebar end -->
+      
+      <!-- Step 1 start -->
+      <div id="step-container" class="step-container">
+        <!-- Title -->
+        <h1>Personal info</h1>
+        <p>Please provide your name, email address, and phone number.</p>
+        <!-- Input area -->
+        <form action="#" id="form-info">
+          <div class="input-area">
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="e.g. Stephen King" required>
+            <label for="address">Email Address</label>
+            <input type="email" id="address" placeholder="e.g. stephenking@lorem.com" required>
+            <label for="tel">Phone Number</label>
+            <input type="text" id="tel" placeholder="e.g. +1 234 567 890" required>
+            <input type="submit" id="hiddenBtn" style="visibility: hidden;">
+          </div>
+        </form>
+      </div>
+      <!-- Buttons -->
+      <div id="button-container" class="btn-container">
+        <div class="btn prev-btn hidden" onclick="goBack()"><span>Go Back</span></div>
+        <div class="btn next-btn" onclick="submit()"><span>Next Step</span></div>
+        <div class="btn confirm-btn noDisplay"><span>Confrim</span></div>
+      </div>
+    </div>
+    <!-- view-container end -->
+  </div>
+  <script>
+    // Next button
+    const submit = () => {
+      event.preventDefault();
+
+      // Get value of each input item
+      let name = document.getElementById("name").value;
+      let address = document.getElementById("address").value;
+      let tel = document.getElementById("tel").value;
+
+
+      // Set value to sessionStorage
+      sessionStorage.setItem("name", name);
+      sessionStorage.setItem("address", address);
+      sessionStorage.setItem("tel", tel);
+
+      document.getElementById("hiddenBtn").click();
+
+      var form = document.getElementById("form-info");
+
+      // if validation is not error
+      if (form.checkValidity()) {
+        // // Go to next page
+        location.href = 'plan.html';
+      }
+    }
+  </script>
+</body>
+
+</html>

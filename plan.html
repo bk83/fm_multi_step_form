@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- displays site properly based on user's device -->
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- font import start -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,400;0,500;1,700&display=swap"
+    rel="stylesheet">
+  <!-- font import end -->
+
+  <title>Frontend Mentor | Multi-step form</title>
+</head>
+
+<body>
+
+  <div class="content-container">
+    <div class="section-container">
+      <!-- Sidebar start -->
+      <div class="sidebar-container">
+        <ul class="sidebar-container__step-list">
+          <li>
+            <div class="step-list__step-num">1</div>
+            <div class="step-list__step-title">
+              <p>Step 1</p>
+              <p>Your info</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-list__step-num active">2</div>
+            <div class="step-list__step-title">
+              <p>Step 2</p>
+              <p>Select plan</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-list__step-num">3</div>
+            <div class="step-list__step-title">
+              <p>Step 3</p>
+              <p>Add-ons</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-list__step-num">4</div>
+            <div class="step-list__step-title">
+              <p>Step 4</p>
+              <p>Summary</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!-- Sidebar end -->
+      <!-- Step 2 start -->
+      <div id="step-container" class="step-container">
+        <!-- Title -->
+        <h1>Select your plan</h1>
+        <p>You have the option of monthly or yearly billing.</p>
+        <!-- Plan area -->
+        <div class="plan-area">
+          <label>
+            <input type="radio" name="plan" class="card-input-element" value=1 />
+            <span class="plan-area_plan-container" id="plan1">
+              <img class="icon" src="assets/images/icon-arcade.svg" alt="arcade plan">
+              <span class="plan-detail">
+                <span class="plan-name"></span>
+                <span class=" plan-price plan-monthly display-block"></span>
+                <span class="plan-price plan-yearly noDisplay"></span>
+                <span class="campaign noDisplay"></span>
+              </span>
+            </span>
+          </label>
+
+          <label>
+            <input type="radio" name="plan" class="card-input-element" value=2 />
+            <span class="plan-area_plan-container" id="plan2">
+              <img class="icon" src="assets/images/icon-advanced.svg" alt="arcade plan">
+              <span class="plan-detail">
+                <span class="plan-name"></span>
+                <span class=" plan-price plan-monthly display-block"></span>
+                <span class="plan-price plan-yearly noDisplay"></span>
+                <span class="campaign noDisplay"></span>
+              </span>
+            </span>
+          </label>
+
+          <label>
+            <input type="radio" name="plan" class="card-input-element" value=3 />
+            <span class="plan-area_plan-container" id="plan3">
+              <img class="icon" src="assets/images/icon-pro.svg" alt="arcade plan">
+              <span class="plan-detail">
+                <span class="plan-name"></span>
+                <span class=" plan-price plan-monthly display-block"></span>
+                <span class="plan-price plan-yearly noDisplay"></span>
+                <span class="campaign noDisplay"></span>
+              </span>
+            </span>
+          </label>
+        </div>
+
+        <!-- plan-switch -->
+        <div class="plan-switch-container">
+          <div class="switch-area">
+            <div class="switches-container">
+              <input type="radio" id="switchMonthly" name="switchPlan" value=1 checked="checked"
+                onchange="handleChange(this);" />
+              <input type="radio" id="switchYearly" name="switchPlan" value=2 onchange="handleChange(this);" />
+              <label for="switchMonthly"></label>
+              <label for="switchYearly"></label>
+              <div class="switch-wrapper">
+                <div class="switch"></div>
+              </div>
+            </div>
+
+            <div id="option-monthly" class="switch-option switch-option-left switch-selected">Monthly</div>
+            <div id="option-yearly" class="switch-option switch-option-right">Yearly</div>
+          </div>
+        </div>
+      </div>
+      <div id="button-container" class="btn-container">
+        <div class="btn prev-btn" onclick="goBack()"><span>Go Back</span></div>
+        <div class="btn next-btn" onclick="submit()"><span>Next Step</span></div>
+        <div class="btn confirm-btn noDisplay"><span>Confrim</span></div>
+      </div>
+      <!-- Step 2 end -->
+    </div>
+    <!-- view-container end -->
+  </div>
+
+  <script>
+    // Plan data
+    const plans = {
+      arcade: {
+        id: 1,
+        name: "Arcade",
+        monthlyFee: 9,
+        yearlyFee: 90,
+        campaign: "2 months free"
+      },
+      advanced: {
+        id: 2,
+        name: "Advanced",
+        monthlyFee: 12,
+        yearlyFee: 100,
+        campaign: "2 months free"
+      },
+      pro: {
+        id: 3,
+        name: "Pro",
+        monthlyFee: 15,
+        yearlyFee: 120,
+        campaign: "2 months free"
+      }
+    };
+
+    // switch option color and prices
+    const handleChange = (src) => {
+      var monthly = document.getElementById("option-monthly");
+      var yearly = document.getElementById("option-yearly");
+
+      // if value = 1 then monthly, 2 then yearly
+      if (src.value == 1) {
+        // monthly 
+        monthly.classList.add('switch-selected');
+        yearly.classList.remove('switch-selected');
+        switchPrices(src.value);
+      } else if (src.value == 2) {
+        // yearly
+        yearly.classList.add('switch-selected');
+        monthly.classList.remove('switch-selected');
+        switchPrices(src.value);
+      }
+      setButtonHeight();
+    }
+
+    // monthly, yearly price switch
+    // get monthly class elemtnt
+    const switchPrices = (selectedPlan) => {
+      const monthlyPrices = document.querySelectorAll('.plan-monthly');
+      const yearlyPrice = document.querySelectorAll('.plan-yearly');
+      const campaignText = document.querySelectorAll('.campaign');
+
+
+      if (selectedPlan == 1) {
+        // Monthly
+        // enable monthly price
+        monthlyPrices.forEach(price => {
+          price.classList.remove('noDisplay');
+          price.classList.add('display-block');
+        });
+
+        // disable yearly price and campaign
+        yearlyPrice.forEach(price => {
+          price.classList.add('noDisplay');
+          price.classList.remove('display-block');
+        });
+
+        campaignText.forEach(campaign => {
+          campaign.classList.add('noDisplay');
+          campaign.classList.remove('display-block');
+        });
+
+      } else if (selectedPlan == 2) {
+        // Yearly
+        // enable yearly price and campaign
+        yearlyPrice.forEach(price => {
+          price.classList.remove('noDisplay');
+          price.classList.add('display-block');
+        });
+
+        campaignText.forEach(campaign => {
+          campaign.classList.remove('noDisplay');
+          campaign.classList.add('display-block');
+        });
+        // disble monthly price
+        monthlyPrices.forEach(price => {
+          price.classList.add('noDisplay');
+          price.classList.remove('display-block');
+        });
+      }
+    }
+
+    // Initial display setting
+    window.addEventListener('load', function () {
+      // Retrieve the plan elements from the document
+      const plan1 = document.getElementById('plan1');
+      const plan2 = document.getElementById('plan2');
+      const plan3 = document.getElementById('plan3');
+
+      // Set prices for each plan
+      plan1.querySelector('.plan-name').textContent = `${plans.arcade.name}`;
+      plan1.querySelector('.plan-monthly').textContent = `$ ${plans.arcade.monthlyFee} /mo`;
+      plan1.querySelector('.plan-yearly').textContent = `$ ${plans.arcade.yearlyFee} /mo`;
+      plan1.querySelector('.campaign').textContent = `${plans.arcade.campaign}`;
+
+      plan2.querySelector('.plan-name').textContent = `${plans.advanced.name}`;
+      plan2.querySelector('.plan-monthly').textContent = `$ ${plans.advanced.monthlyFee} /mo`;
+      plan2.querySelector('.plan-yearly').textContent = `$ ${plans.advanced.yearlyFee} /mo`;
+      plan2.querySelector('.campaign').textContent = `${plans.advanced.campaign}`;
+
+      plan3.querySelector('.plan-name').textContent = `${plans.pro.name}`;
+      plan3.querySelector('.plan-monthly').textContent = `$ ${plans.pro.monthlyFee} /mo`;
+      plan3.querySelector('.plan-yearly').textContent = `$ ${plans.pro.yearlyFee} /mo`;
+      plan3.querySelector('.campaign').textContent = `${plans.pro.campaign}`;
+
+    });
+
+    // Next button
+    const submit = () => {
+
+      event.preventDefault();
+
+      // Check if mothly/yearly
+      var switchPlan = document.getElementsByName('switchPlan');
+      var checkedVal;
+      for (var i = 0; i < switchPlan.length; i++) {
+        if (switchPlan[i].checked) {
+          checkedVal = switchPlan[i].value;
+          break;
+        }
+      }
+
+      // checked radio item
+      // Get the reference to the plan radio buttons
+      var planElements = document.querySelectorAll(".card-input-element");
+
+      // Initialize variables to store the selected plan details
+      var selectedPlan = "";
+      var monthlyFee = "";
+      var yearlyFee = "";
+      var fee = "";
+
+      // Iterate through the plan radio buttons
+      for (var i = 0; i < planElements.length; i++) {
+        // Check if the current plan radio button is checked
+        if (planElements[i].checked) {
+
+          switch (i) {
+            case 0:
+              // arcade plan
+              selectedPlan = plans.arcade.name;
+              monthlyFee = plans.arcade.monthlyFee;
+              yearlyFee = plans.arcade.yearlyFee;
+              fee = checkedVal == 1 ? monthlyFee : yearlyFee;
+
+              break;
+
+            case 1:
+              // advanced plan
+              selectedPlan = plans.advanced.name;
+              monthlyFee = plans.advanced.monthlyFee;
+              yearlyFee = plans.advanced.yearlyFee;
+              fee = checkedVal == 1 ? monthlyFee : yearlyFee;
+
+              break;
+
+            case 2:
+              // pro plan
+              selectedPlan = plans.pro.name;
+              monthlyFee = plans.pro.monthlyFee;
+              yearlyFee = plans.pro.yearlyFee;
+              fee = checkedVal == 1 ? monthlyFee : yearlyFee;
+              break;
+
+            default:
+              console.log('invalid id plan selected');
+          }
+          // Exit the loop since the selected plan is found
+        }
+      }
+
+
+      if (selectedPlan === "") {
+        alert('Select your plan');
+        return;
+      }
+
+      // Set value to sessionStorage
+      sessionStorage.setItem("switchVal", checkedVal);
+      sessionStorage.setItem("selectedPlan", selectedPlan);
+      sessionStorage.setItem("monthlyFee", monthlyFee);
+      sessionStorage.setItem("yearlyFee", yearlyFee);
+      sessionStorage.setItem("fee", fee);
+
+      // Go to next page
+      location.href = 'addon.html';
+
+    }
+
+    // Go back button
+    const goBack = () => {
+      location.href = 'index.html';
+    }
+  </script>
+  <script src="assets/js/common.js"></script>
+</body>
+
+</html>
